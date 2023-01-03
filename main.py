@@ -33,8 +33,8 @@ def princ():
                 #link do video q deseja baixar
                 link = saida
                 print(link)
-                print("O diretório de download será esse: [ /media/andrenobre/hd/music ]\n")
                 path = folder_selected
+                print(f"O diretório de download será esse: [ {path} ]\n")
 
                 try:
                     yt = YouTube(link)
