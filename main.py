@@ -4,18 +4,19 @@ from pytube import YouTube
 import moviepy.editor as mp
 from tkinter import filedialog
 from tkinter import *
+import tkinter as tk
 
-#https://www.youtube.com/watch?v=nzvwHv2Iq10
+#https://www.youtube.com/watch?v=GxldQ9eX2wo
 
 
 def princ():
+    
     customtkinter.set_appearance_mode('System')
     customtkinter.set_default_color_theme('green')
 
     root = customtkinter.CTk()
-    root.geometry('1000x350')
+    root.geometry('1000x348')
     root.title("TransformerMedia")
-    
 
     def login():
         root = Tk()
@@ -28,6 +29,7 @@ def princ():
         comb2 = checkbox2.get()
         entry1.delete(0, END)
         def faz():
+
             try:
 
                 #link do video q deseja baixar
@@ -42,13 +44,15 @@ def princ():
 
                     if comb == 1 and comb2 == 0:
                         print("Baixando...")
+                        logs.baixan()
                         ys = yt.streams.filter(progressive=True, file_extension='mp4').get_highest_resolution()
                         ys.download(path)
                         print("Download completo!")
-                        logs.logAcert()
-
+                        logs.concl()
+                     
                     if comb == 0 and comb2 == 1:
                         print("Baixando...")
+                        logs.baixan()
                         ys = yt.streams.filter(only_audio=True).first().download(path)
                         print("Download completo!")
                     #convertendo video para mp3
@@ -60,10 +64,12 @@ def princ():
                                 new_file = mp.AudioFileClip(mp4_path)
                                 new_file.write_audiofile(mp3_path)
                                 os.remove(mp4_path)
+        
                         print('Sucesso!!')
-                        logs.logAcert()
+                        logs.concl()
                     if comb == 1 and comb2 == 1:
                         print("Baixando...")
+                        logs.baixan()
                         ys = yt.streams.filter(progressive=True, file_extension='mp4').get_highest_resolution()
                         ys.download(path)
                         print("Download completo!")
@@ -75,11 +81,12 @@ def princ():
                                 mp3_path = os.path.join(path, os.path.splitext(file)[0]+'.mp3')
                                 new_file = mp.AudioFileClip(mp4_path)
                                 new_file.write_audiofile(mp3_path)
+                        
                         print('Sucesso!!')
-                        logs.logAcert()
+                        logs.concl()
                     
                     if comb == 0 and comb2 == 0:
-                        logs.logErr()
+                        logs.erro()
                         princ()
 
                     if root.destroy():
@@ -87,16 +94,13 @@ def princ():
 
                 except Exception as erro:
                     print(f'Erro: {erro}')
-                    exit()
+                    logs.erro()
 
             except Exception as error:
                 print(error)
-                logs.logErr()
-                exit()
-            
+                logs.erro()
+        
         faz()
-
-
 
 
     frame = customtkinter.CTkFrame(master=root)
@@ -109,14 +113,20 @@ def princ():
     entry1 = customtkinter.CTkEntry(master=frame, placeholder_text='Link', width=800)
     entry1.pack(pady=12, padx=10)
 
-    checkbox = customtkinter.CTkCheckBox(master=frame, text='MP4')
+    checkbox = customtkinter.CTkCheckBox(master=frame, text='MP4 (vídeo)')
     checkbox.pack(pady=12, padx=10)
 
-    checkbox2 = customtkinter.CTkCheckBox(master=frame, text='MP3')
+    checkbox2 = customtkinter.CTkCheckBox(master=frame, text='MP3 (audio)')
     checkbox2.pack(padx=0)
 
     button = customtkinter.CTkButton(master=frame, text='Baixar', command=login)
     button.pack(pady=30, padx=20)
 
+    def fechar():
+        root.destroy()
+        exit()
+
+    root.protocol('WM_DELETE_WINDOW', fechar)
     root.mainloop()
+    
 princ()
