@@ -12,7 +12,18 @@
 
 <h4> Para Baixar as bibliotecas, faça o seguinte: </h4>
 
+```
 - pip install customtkinter
+```
+
+```
 - pip install pytube
+```
+
+```
 - pip install moviepy
+```
+
+```
 - pip install tkinter
+```
